@@ -34,7 +34,7 @@ class TasksController extends Controller
         $task = new Task;
 
         return view('tasks.create', [
-            'task' => $message,
+            'task' => $task,
         ]);
 
     }
@@ -47,7 +47,17 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $this->validate($request, [
+            'content'=> 'required|max:255',
+        ]);
+        
+        $task = new Task;
+        $task->content = $request->content;
+        $task->save();
+
+        return redirect('/');
+
     }
 
     /**
@@ -77,7 +87,7 @@ class TasksController extends Controller
           $task = Task::find($id);
 
         return view('tasks.edit', [
-            'task' => $message,
+            'task' => $task,
         ]);
 
     }
